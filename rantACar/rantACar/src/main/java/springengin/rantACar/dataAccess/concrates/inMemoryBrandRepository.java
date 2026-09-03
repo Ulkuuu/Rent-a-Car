@@ -178,5 +178,15 @@ public class inMemoryBrandRepository implements Brandrepository{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findOne'");
     }
+    @Override
+    public boolean exisexistsByName(String name) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'exictsByName'");
+    }
+    @Override
+    public boolean existsByName(String name) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'existsByName'");
+    }
 
 }

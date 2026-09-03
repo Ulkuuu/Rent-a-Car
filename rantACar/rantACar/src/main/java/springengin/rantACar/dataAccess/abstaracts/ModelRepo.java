@@ -9,6 +9,8 @@ import springengin.rantACar.entites.concretes.Brand;
 
 public interface  ModelRepo  extends JpaRepository<Model,Integer>{
 
+    void save(springengin.rantACar.entites.concretes.Model model);
+
 
 
 }

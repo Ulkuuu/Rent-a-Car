@@ -5,44 +5,70 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import ch.qos.logback.core.model.Model;
 import lombok.AllArgsConstructor;
 import springengin.rantACar.business.abstact.ModelServices;
 import springengin.rantACar.business.requests.CreateModelRequest;
-import springengin.rantACar.business.responses.GetAllBrandRespons;
+import springengin.rantACar.business.requests.UpdateModelRequest;
 import springengin.rantACar.business.responses.GetAllModelresponse;
+import springengin.rantACar.business.responses.GetByIdModelResponse;
 import springengin.rantACar.core.utilities.mappers.ModelMappersServices;
 import springengin.rantACar.dataAccess.abstaracts.ModelRepo;
-import springengin.rantACar.entites.concretes.Brand;
+import springengin.rantACar.entites.concretes.Model;
+import springengin.rantACar.webApi.controllers.UpdatemodelRequest;
+
 @Service
 @AllArgsConstructor
-
 public class ModelManager implements ModelServices {
-private ModelRepo modelrepo;
-private ModelMappersServices modelMappersServices;
 
- @Override
+    private final ModelRepo modelrepo;
+    private final ModelMappersServices modelMappersServices;
+
+    @Override
     public List<GetAllModelresponse> getAll() {
-       //iş kuralları
+        List<ch.qos.logback.core.model.Model> models = this.modelrepo.findAll();
 
-      List<Model> models= modelrepo.findAll();
-     
-     
-      List<Object> modelsResponses = models.stream()
-    .map(model -> this.modelMappersServices.forResponse().map(model, GetAllModelresponse.class))
-    .collect(Collectors.toList());
-      return null;
+        List<GetAllModelresponse> modelsResponse = models.stream()
+                .map(model -> this.modelMappersServices.forResponse()
+                        .map(model, GetAllModelresponse.class))
+                .collect(Collectors.toList());
+
+        return modelsResponse;
     }
 
- @Override
+    @Override
+    public springengin.rantACar.business.abstact.GetByIdModelResponse getById(int id) {
+        Model model = this.modelrepo.findById(id).orElseThrow();
 
-public void add(CreateModelRequest createModelRequest) {
-    Model model = this.modelMappersServices.forRequest().map(createModelRequest, Model.class);
-    
-    this.modelrepo.save(model);
+        GetByIdModelResponse response = this.modelMappersServices.forResponse()
+                .map(model, GetByIdModelResponse.class);
+
+        return response;
+    }
+
+    @Override
+    public void add(CreateModelRequest createModelRequest) {
+        Model model = this.modelMappersServices.forRequest()
+                .map(createModelRequest, Model.class);
+
+        this.modelrepo.save(model);
+    }
+
+    @Override
+    public void update(UpdateModelRequest updateModelRequest) {
+        Model model = this.modelMappersServices.forRequest()
+                .map(updateModelRequest, Model.class);
+
+        this.modelrepo.save(model);
+    }
+
+    @Override
+    public void delete(int id) {
+        this.modelrepo.deleteById(id);
+    }
+
+    @Override
+    public void update(UpdatemodelRequest updateModelRequest) {
+      // TODO Auto-generated method stub
+      throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
 }
-   
-
- }
-   
-

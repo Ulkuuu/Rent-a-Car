@@ -2,8 +2,6 @@ package springengin.rantACar.entites.concretes;
 
 import java.util.List;
 
-import org.hibernate.annotations.ManyToAny;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,8 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
-@Table(name="models")
+@Table(name = "models")
 @ToString
 @Setter
 @EqualsAndHashCode
@@ -30,18 +27,20 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 public class Model {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
 
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
+
     @ManyToOne
-    @JoinColumn(name="brand=id")
+    @JoinColumn(name = "brand_id") // Foreign key sütun adı brand_id olarak düzeltildi
     private Brand brand;
 
-     @OneToMany(mappedBy = "model")
+    @OneToMany(mappedBy = "model")
     private List<Car> cars;
 
 }
